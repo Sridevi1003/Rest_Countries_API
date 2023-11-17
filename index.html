@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Country Information</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #E6E6FA 25%, #662d91 75%);
+            font-family: 'Oleo Script', Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: purple;
+        }
+        form {
+            background-color: #FBEBF9 ;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"] {
+            padding: 5px;
+            width: 50%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: purple;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        {% if country_info %}
+        h2, p {
+            font-family: 'Oleo Script', sans-serif;
+        }
+        {% endif %}
+    </style>
+</head>
+<body>
+    <h1><br><br>COUNTRY INFORMATION<br><br></h1>
+    <form method="POST">
+        <label for "country_name">Enter a country name:</label>
+        <input type="text" name="country_name" id="country_name" required>
+        <button type="submit">Get Information</button>
+    </form>
+
+    {% if country_info %}
+    <!-- Your country information display code here -->
+    <h2><br>{{ country_info[0]['name'] }}<br></h2>
+    <p>Capital: {{ country_info[0]['capital'] }}</p>
+    <p>Population: {{ country_info[0]['population'] }}</p>
+    <p>Region: {{ country_info[0]['region'] }}</p>
+    <p>Subregion: {{ country_info[0]['subregion'] }}</p>
+    <p>Timezones: {{ country_info[0]['timezones'] }}</p>
+    <p>Currencies: {{ country_info[0]['currencies'][0]['name'] }} ({{ country_info[0]['currencies'][0]['code'] }})</p>
+    <p>Languages:
+        {% for language in country_info[0]['languages'] %}
+            {{ language['name'] }}
+            {% if not loop.last %},{% endif %}
+        {% endfor %}
+    </p>
+    <p>Flag: <img src="{{ country_info[0]['flags']['png'] }}" alt="{{ country_info[0]['name'] }} Flag"></p>
+    {% endif %}
+</body>
+</html>
